@@ -3,9 +3,9 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 
-book = Flask(__name__)
-conn = book.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:bansal31@localhost/BOOK_MANAGEMENT_APP'
-db = SQLAlchemy(book)
+back = Flask(__name__)
+conn = back.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:bansal31@localhost/BOOK_MANAGEMENT_APP'
+db = SQLAlchemy(back)
 
 class BOOKS(db.Model):
     __tabelname__ ='Book'
@@ -20,10 +20,29 @@ class BOOKS(db.Model):
         self.Author = Author
         self.Year = Year
 
+# Inserting books details into databse
 def insert(title,author,year,isbn):
     new_record = BOOKS(isbn,title,author,year)
     db.session.add(new_record)
     db.session.commit()
+
+
+def view():
+    Datas = db.session.query(BOOKS).all()
+    return Datas
+
+
+def update(title,author,year,isbn):
+    # query the database to get the book with the specefied ISBN
+    book_ = db.session.query(BOOKS).filter_by(ISBN=isbn).first()
+    if book_:
+        book_.Title = title
+        book_.Author = author
+        book_.Year = year
+    # Commit the changes to the database
+        db.session.commit()
+        # print("succesfully")
+        # print(book_)
 
 
 # def connect():

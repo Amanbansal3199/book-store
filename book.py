@@ -1,5 +1,5 @@
 from tkinter import *
-from back import insert
+from back import insert, update, view
 
 def get_selected_row(event):
     try:
@@ -19,7 +19,7 @@ def get_selected_row(event):
 
 def view_cm():
     list1.delete(0,END)
-    for row in back.view():
+    for row in view():
         list1.insert(END,row)
 
 def search_command():
@@ -36,7 +36,7 @@ def delete_command():
     back.delete(selct_tuple[0])
 
 def update_command():
-    back.update(e1_text.get(),e2_text.get(),e3_text.get(),e4_text.get())
+    update(e1_text.get(),e2_text.get(),e3_text.get(),e4_text.get())
 
 
 window=Tk()

@@ -1,5 +1,5 @@
 from tkinter import *
-import back
+from back import insert
 
 def get_selected_row(event):
     try:
@@ -28,7 +28,7 @@ def search_command():
         list1.insert(END,row)
 
 def add_command():
-    back.insert(e1_text.get(),e2_text.get(),e3_text.get(),e4_text.get())
+    insert(e1_text.get(),e2_text.get(),e3_text.get(),e4_text.get())
     list1.delete(0,END)
     list1.insert(END,e1_text.get(),e2_text.get(),e3_text.get(),e4_text.get())
 
@@ -69,7 +69,6 @@ e4.grid(row=1,column=4)
 
 list1=Listbox(window,height=15,width=45)
 list1.grid(row=2,column=0,rowspan=6,columnspan=2)
-photo=PhotoImage(file="arya.gif")
 
 sb1=Scrollbar(window)
 sb1.grid(row=3,column=2 )

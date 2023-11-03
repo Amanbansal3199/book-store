@@ -1,19 +1,19 @@
 from tkinter import *
-from back import insert, update, view
+from back import insert, update, view, search, delete
 
 def get_selected_row(event):
     try:
-        global selct_tuple
+        global select_tuple
         index=list1.curselection()
-        selct_tuple=list1.get(index)
+        select_tuple=list1.get(index)
         e1.delete(0,END)
-        e1.insert(END,selct_tuple[0])
+        e1.insert(END, select_tuple[0])
         e2.delete(0,END)
-        e2.insert(END,selct_tuple[1])
+        e2.insert(END, select_tuple[1])
         e3.delete(0,END)
-        e3.insert(END,selct_tuple[2])
+        e3.insert(END, select_tuple[2])
         e4.delete(0,END)
-        e4.insert(END,selct_tuple[3])
+        e4.insert(END, select_tuple[3])
     except IndexError:
         pass
 
@@ -24,7 +24,7 @@ def view_cm():
 
 def search_command():
     list1.delete(0,END)
-    for row in back.search(e1_text.get(),e1_text.get(),e3_text.get(),e4_text.get()):
+    for row in search(e1_text.get(),e2_text.get(),e3_text.get(),e4_text.get()):
         list1.insert(END,row)
 
 def add_command():
@@ -33,7 +33,12 @@ def add_command():
     list1.insert(END,e1_text.get(),e2_text.get(),e3_text.get(),e4_text.get())
 
 def delete_command():
-    back.delete(selct_tuple[0])
+    global select_tuple
+    if select_tuple:
+        delete(select_tuple[0])
+        print(select_tuple[0])
+    else:
+        print("no row")
 
 def update_command():
     update(e1_text.get(),e2_text.get(),e3_text.get(),e4_text.get())

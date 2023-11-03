@@ -33,12 +33,8 @@ def add_command():
     list1.insert(END,e1_text.get(),e2_text.get(),e3_text.get(),e4_text.get())
 
 def delete_command():
-    global select_tuple
-    if select_tuple:
-        delete(select_tuple[0])
-        print(select_tuple[0])
-    else:
-        print("no row")
+    for row in delete(e1_text.get(),e2_text.get(),e3_text.get(),e4_text.get()):
+        list1.insert(END, row)
 
 def update_command():
     update(e1_text.get(),e2_text.get(),e3_text.get(),e4_text.get())

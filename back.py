@@ -1,8 +1,7 @@
-import sqlite3
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_
-from sqlalchemy import text
+
 
 back = Flask(__name__)
 conn = back.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:bansal31@localhost/BOOK_MANAGEMENT_APP'
@@ -23,8 +22,10 @@ class BOOKS(db.Model):
 
 # Inserting books details into databse
 def insert(title,author,year,isbn):
-    new_record = BOOKS(isbn,title,author,year)
+    new_record = BOOKS(isbn, title, author, year)
     db.session.add(new_record)
+
+    # commit the changes
     db.session.commit()
 
 
@@ -34,21 +35,21 @@ def view():
 
     list_ = []
 
-    for data in  Datas:
+    for data in Datas:
         values = []
         Isbn_val = data.ISBN
         Author_val = data.Author
         Title_val = data.Title
-        Year_val =  data.Year
-        values.append(Isbn_val),values.append(Author_val),values.append(Title_val),values.append(Year_val)
+        Year_val = data.Year
+        values.append(Isbn_val), values.append(Author_val), values.append(Title_val), values.append(Year_val)
         list_.append(values)
-    return  list_
+    return list_
     # print(list_))
 
 def update(title,author,year,isbn):
     # query the database to get the book with the specefied ISBN
     book_ = db.session.query(BOOKS).filter_by(ISBN=isbn).first()
-    print([book_.Title, book_.ISBN, book_.Author, book_.Year])
+
     if book_:
         book_.Title = title
         book_.Author = author
@@ -86,7 +87,16 @@ def search(title="",author="",year="",isbn=""):
         result.append(output)
     return result
 
-def delete(title):
-   to_be_delete = db.session.query(BOOKS).filter_by(Title=title).first()
-   db.session.delete(to_be_delete)
-   db.session.commit()
+def delete(title="", author="", year="", isbn=""):
+    to_be_delete = db.session.query(BOOKS).filter_by(ISBN=isbn).first()
+    result = []
+    if to_be_delete:
+        result.append(to_be_delete.ISBN)
+        result.append(to_be_delete.Author)
+        result.append(to_be_delete.Title)
+        result.append(to_be_delete.Year)
+
+    db.session.delete(to_be_delete)
+    db.session.commit()
+
+    return [result]

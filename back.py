@@ -41,7 +41,7 @@ def view():
         Author_val = data.Author
         Title_val = data.Title
         Year_val = data.Year
-        values.append(Isbn_val), values.append(Author_val), values.append(Title_val), values.append(Year_val)
+        values.append(Title_val), values.append(Author_val), values.append(Year_val), values.append(Isbn_val)
         list_.append(values)
     return list_
     # print(list_))
@@ -59,7 +59,7 @@ def update(title,author,year,isbn):
         # print("succesfully")
         # print(book_)
 
-def search(title="",author="",year="",isbn=""):
+def search(title="",author="",year="", isbn=""):
     result = []
 
     book_ = BOOKS.metadata.tables["BOOKS"]
@@ -83,18 +83,18 @@ def search(title="",author="",year="",isbn=""):
 
     for instance in db.session.execute(query):
         output = []
-        output.append(instance.ISBN), output.append(instance.Author), output.append(instance.Title), output.append(instance.Year)
+        output.append(instance.Title), output.append(instance.Author), output.append(instance.Year), output.append(instance.ISBN)
         result.append(output)
     return result
 
-def delete(title="", author="", year="", isbn=""):
+def delete(title="", author="", year="",isbn=""):
     to_be_delete = db.session.query(BOOKS).filter_by(ISBN=isbn).first()
     result = []
     if to_be_delete:
-        result.append(to_be_delete.ISBN)
-        result.append(to_be_delete.Author)
         result.append(to_be_delete.Title)
+        result.append(to_be_delete.Author)
         result.append(to_be_delete.Year)
+        result.append(to_be_delete.ISBN)
 
     db.session.delete(to_be_delete)
     db.session.commit()
